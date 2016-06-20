@@ -1,7 +1,5 @@
 package com.twu.biblioteca;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 public class Book {
 
     private String title;
@@ -37,8 +35,9 @@ public class Book {
         return onLoan;
     }
 
-    public void setOnLoan(boolean onLoan) {
-        this.onLoan = onLoan;
+    public void setOnLoan(boolean status) {
+        if (isOnLoan() == status) return;
+        this.onLoan = status;
     }
 
     public Book (String title, String author, int yearPublished) {
@@ -46,5 +45,9 @@ public class Book {
         this.author = author;
         this.yearPublished = yearPublished;
         this.onLoan = false;
+    }
+
+    public String loanStatus() {
+        return (this.isOnLoan()) ? "on loan" : "available";
     }
 }

@@ -4,7 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
@@ -13,61 +15,71 @@ import static org.junit.Assert.assertEquals;
 public class LibraryTest {
 
     private Library library;
+    private ArrayList<Book> books;
 
     private PrintStream originalOutputStream;
-    private PrintStream anotherOutputStream;
+    private InputStream originalInputStream;
     private ByteArrayOutputStream testOutputStream;
+    private ByteArrayInputStream testInputStream;
 
-    private Book book1;
-    private Book book2;
-    private Book book3;
+    private void setInputString(String input) {
+        testInputStream = new ByteArrayInputStream(input.getBytes());
+        System.setIn(testInputStream);
+    }
 
     @Before
-    public void setUp () {
+    public void setUp() {
         library = new Library();
+        books = library.getAllBooks();
         originalOutputStream = System.out;
+        originalInputStream = System.in;
         testOutputStream = new ByteArrayOutputStream();
-        anotherOutputStream = new PrintStream(testOutputStream);
-        System.setOut(anotherOutputStream);
-
-        book1 = new Book("Title 1", "James Tan", 1999);
-        book2 = new Book("Title 2", "Alex Lim", 2001);
-        book3 = new Book("Title 3", "Alfred Choo", 2015);
+        System.setOut(new PrintStream(testOutputStream));
     }
-
     @Test
-    public void shouldDisplayWelcomeMessage () {
+    public void shouldDisplayWelcomeMessage() {
         library.displayWelcomeMessage();
-        assertEquals("Welcome to Biblioteca", testOutputStream.toString());
+        assertEquals("Welcome to Biblioteca!\n\n", testOutputStream.toString());
     }
-
     @Test
-    public void shouldDisplayMenu () {
-        library.displayMenu();
+    public void shouldCheckoutBook() {
+        Book book = books.get(0);
+        assertEquals(true, library.checkout(book));
     }
-
     @Test
-    public void shouldListBooks () {
-        ArrayList<String> books = new ArrayList<String>();
-        books.add("Book 1");
-        books.add("Book 2");
-        books.add("Book 3");
-        books.add("Book 4");
-        library.listAllBooks(books);
+    public void shouldNotCheckoutBook() {
+        Book book = books.get(0);
+        library.checkout(book);
+        assertEquals(false, library.checkout(book));
+    }
+    @Test
+    public void shouldCheckinBook() {
+        Book book = books.get(0);
+        library.checkout(book);
+        assertEquals(true, library.checkin(book));
+    }
+    @Test
+    public void shouldListBook() throws Exception {
+        Book book = new Book("My Title", "My Author", 1999);
+        String expectedOutput = String.format("%s by %s (%d) is %s%n",
+                book.getTitle(),
+                book.getAuthor(),
+                book.getYearPublished(),
+                book.loanStatus()
+        );
+        assertEquals(expectedOutput, library.listBook(book));
+    }
+    @Test
+    public void shouldListAllBooks() throws Exception {
         StringBuilder expectedOutput = new StringBuilder();
-        for (String book : books) {
-            expectedOutput.append(book);
-            expectedOutput.append("\n");
+        for (Book book : books) {
+            expectedOutput.append(library.listBook(book));
         }
-        assertEquals(expectedOutput.toString(), testOutputStream.toString());
+        assertEquals(expectedOutput.toString(), library.listAllBooks());
     }
-    @Test
-    public void shouldCheckoutBookIfAvailable() {
-
-    }
-
     @After
     public void tearDown () {
         System.setOut(originalOutputStream);
+        System.setIn(originalInputStream);
     }
 }

@@ -1,7 +1,5 @@
 package com.twu.biblioteca;
 
-import com.javafx.tools.doclets.formats.html.SourceToHTMLConverter;
-
 import java.util.Scanner;
 
 public class App {
@@ -16,22 +14,25 @@ public class App {
         while (choice != quit) {
             library.displayMenu();
             choice = scan.nextLine().charAt(0);
+            System.out.println();
             switch (choice) {
                 case '1':
                     library.listAllBooks();
                     break;
                 case '2':
-                    System.out.println("Choice 2\n");
+                    library.loanBook();
                     break;
                 case '3':
-                    System.out.println("Choice 3\n");
+                    library.returnBook();
                     break;
+                case 'q':
                 case 'Q':
                     System.out.println("Thank you for using Biblioteca! Goodbye");
                 default:
-                    System.out.println("Invalid choice\n");
+                    System.out.println("Invalid option\n");
                     break;
             }
+            System.out.println();
         }
 
     }

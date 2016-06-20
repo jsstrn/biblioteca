@@ -4,11 +4,11 @@
 
 1. Sign into GitHub and create a new repository
 
-> Repository name: twu-biblioteca-yourname
-> Privacy level: Public
-> Don't check "Initialize this repository with a README"
-> Add .gitignore: None
-> Add a license: Apache License 2.0
+ Repository name: twu-biblioteca-yourname
+ Privacy level: Public
+ Don't check "Initialize this repository with a README"
+ Add .gitignore: None
+ Add a license: Apache License 2.0
 
 2. Run `git init` in the folder that was extracted from the downloaded .zip file, in order to initialize local repository.
 

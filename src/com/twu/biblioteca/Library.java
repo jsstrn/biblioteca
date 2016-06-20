@@ -7,14 +7,8 @@ public class Library {
 
     private ArrayList<Book> books;
 
-    public Library() {
-        books = new ArrayList<Book>();
-        Book book1 = new Book("Refactoring", "Martin Fowler", 1999);
-        Book book2 = new Book("Design Patterns", "Gang of Four", 1994);
-        Book book3 = new Book("Clean Code", "Robert Martin", 2008);
-        this.books.add(book1);
-        this.books.add(book2);
-        this.books.add(book3);
+    public Library(ArrayList<Book> books) {
+        this.books = books;
     }
     public ArrayList<Book> getAllBooks() {
         return books;
@@ -49,30 +43,6 @@ public class Library {
             output.append(this.listBook(book));
         }
         return output.toString();
-    }
-
-    public void loanBook() {
-        int choice;
-
-        listAllBooks();
-        System.out.print("Select a book to loan: ");
-
-        Scanner scan = new Scanner(System.in);
-        choice = scan.nextInt();
-        Book book = books.get(choice -1);
-
-        if (!book.isOnLoan()) {
-            book.setOnLoan(true);
-            System.out.printf(
-                    "You have successfully loaned %s by %s",
-                    book.getTitle(),
-                    book.getAuthor());
-        } else {
-            System.out.printf(
-                    "%s by %s is already on loan",
-                    book.getTitle(),
-                    book.getAuthor());
-        }
     }
 
     public void returnBook() {

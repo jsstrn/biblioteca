@@ -36,7 +36,6 @@ public class Book {
     }
 
     public void setOnLoan(boolean status) {
-        if (isOnLoan() == status) return;
         this.onLoan = status;
     }
 

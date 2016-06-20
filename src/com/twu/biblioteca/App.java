@@ -1,14 +1,50 @@
 package com.twu.biblioteca;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class App {
+
     private static Library library;
+    private static ArrayList<Book> books;
+
+    private static void createLibrary() {
+        books = new ArrayList<Book>();
+        Book book1 = new Book("Refactoring", "Martin Fowler", 1999);
+        Book book2 = new Book("Design Patterns", "Gang of Four", 1994);
+        Book book3 = new Book("Clean Code", "Robert Martin", 2008);
+        books.add(book1);
+        books.add(book2);
+        books.add(book3);
+        library = new Library(books);
+    }
+
+    private static void loanBook() {
+        int choice;
+        library.listAllBooks();
+        System.out.print("Select a book to loan: ");
+
+        Scanner scan = new Scanner(System.in);
+        choice = scan.nextInt();
+        Book book = books.get(choice -1);
+
+        if (library.checkout(book)) {
+            System.out.printf(
+                    "You have successfully returned %s by %s",
+                    book.getTitle(),
+                    book.getAuthor());
+        } else {
+            System.out.printf(
+                    "You can't return %s by %s because it's not on loan.",
+                    book.getTitle(),
+                    book.getAuthor());
+        }
+    }
 
     public static void main (String[] args) {
         char choice = ' ';
         char quit = 'Q';
-        library = new Library();
+        createLibrary();
         library.displayWelcomeMessage();
         Scanner scan = new Scanner(System.in);
         while (choice != quit) {
@@ -20,7 +56,7 @@ public class App {
                     library.listAllBooks();
                     break;
                 case '2':
-                    library.loanBook();
+                    loanBook();
                     break;
                 case '3':
                     library.returnBook();

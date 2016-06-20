@@ -29,7 +29,14 @@ public class LibraryTest {
 
     @Before
     public void setUp() {
-        library = new Library();
+        books = new ArrayList<Book>();
+        Book book1 = new Book("Refactoring", "Martin Fowler", 1999);
+        Book book2 = new Book("Design Patterns", "Gang of Four", 1994);
+        Book book3 = new Book("Clean Code", "Robert Martin", 2008);
+        books.add(book1);
+        books.add(book2);
+        books.add(book3);
+        library = new Library(books);
         books = library.getAllBooks();
         originalOutputStream = System.out;
         originalInputStream = System.in;

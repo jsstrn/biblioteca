@@ -21,14 +21,38 @@ public class App {
 
     private static void loanBook() {
         int choice;
-        library.listAllBooks();
+        System.out.println(library.listAllBooks());
         System.out.print("Select a book to loan: ");
 
         Scanner scan = new Scanner(System.in);
         choice = scan.nextInt();
-        Book book = books.get(choice -1);
+        Book book = books.get(choice - 1);
 
         if (library.checkout(book)) {
+            System.out.printf(
+                    "You have successfully loaned %s by %s",
+                    book.getTitle(),
+                    book.getAuthor());
+        } else {
+            System.out.printf(
+                    "You can't loan %s by %s because it's already on loan.",
+                    book.getTitle(),
+                    book.getAuthor());
+        }
+    }
+
+    private static void returnBook() {
+        int choice;
+
+        System.out.println(library.listAllBooks());
+        System.out.print("Select a book to return: ");
+
+        Scanner scan = new Scanner(System.in);
+        choice = scan.nextInt();
+        Book book = books.get(choice - 1);
+
+        if (library.checkin(book)) {
+            book.setOnLoan(false);
             System.out.printf(
                     "You have successfully returned %s by %s",
                     book.getTitle(),
@@ -39,6 +63,10 @@ public class App {
                     book.getTitle(),
                     book.getAuthor());
         }
+    }
+
+    private static void displayAllBooks() {
+        System.out.println(library.listAllBooks());
     }
 
     public static void main (String[] args) {
@@ -53,13 +81,13 @@ public class App {
             System.out.println();
             switch (choice) {
                 case '1':
-                    library.listAllBooks();
+                    displayAllBooks();
                     break;
                 case '2':
                     loanBook();
                     break;
                 case '3':
-                    library.returnBook();
+                    returnBook();
                     break;
                 case 'q':
                 case 'Q':

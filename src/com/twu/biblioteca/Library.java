@@ -10,6 +10,7 @@ public class Library {
     public Library(ArrayList<Book> books) {
         this.books = books;
     }
+
     public ArrayList<Book> getAllBooks() {
         return books;
     }
@@ -40,33 +41,10 @@ public class Library {
         StringBuilder output = new StringBuilder();
         for (Book book : books) {
             count++;
-            output.append(this.listBook(book));
+            String tmp = count + ") " + this.listBook(book);
+            output.append(tmp);
         }
         return output.toString();
-    }
-
-    public void returnBook() {
-        int choice;
-
-        listAllBooks();
-        System.out.print("Select a book to loan: ");
-
-        Scanner scan = new Scanner(System.in);
-        choice = scan.nextInt();
-        Book book = books.get(choice -1);
-
-        if (book.isOnLoan()) {
-            book.setOnLoan(false);
-            System.out.printf(
-                    "You have successfully returned %s by %s",
-                    book.getTitle(),
-                    book.getAuthor());
-        } else {
-            System.out.printf(
-                    "You can't return %s by %s because it's not on loan.",
-                    book.getTitle(),
-                    book.getAuthor());
-        }
     }
 
     public boolean checkout(Book book) {

@@ -79,8 +79,12 @@ public class LibraryTest {
     @Test
     public void shouldListAllBooks() throws Exception {
         StringBuilder expectedOutput = new StringBuilder();
+        int count = 0;
         for (Book book : books) {
+            count++;
             expectedOutput.append(library.listBook(book));
+            expectedOutput.insert(0, ") ");
+            expectedOutput.insert(0, count);
         }
         assertEquals(expectedOutput.toString(), library.listAllBooks());
     }
